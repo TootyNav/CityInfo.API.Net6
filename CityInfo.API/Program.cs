@@ -1,8 +1,14 @@
+using Microsoft.AspNetCore.Mvc.Formatters;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddRazorPages();
-builder.Services.AddControllers();
+//builder.Services.AddRazorPages();
+
+builder.Services.AddControllers()
+    .AddMvcOptions(x => 
+    {
+        x.OutputFormatters.Add(new XmlDataContractSerializerOutputFormatter());
+    });
 
 
 var app = builder.Build();
@@ -12,14 +18,12 @@ if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
 }
-app.UseStaticFiles();
+//app.UseStaticFiles();
+//app.UseRouting();
+//app.UseAuthorization();
+//app.MapRazorPages();
 
-app.UseRouting();
-
-app.UseAuthorization();
-
-
-app.MapRazorPages();
+app.UseStatusCodePages();
 app.MapControllers();
 
 app.Run();
