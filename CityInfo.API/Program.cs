@@ -1,5 +1,6 @@
+using CityInfo.API.Contexts;
 using Microsoft.AspNetCore.Mvc.Formatters;
-
+using Microsoft.EntityFrameworkCore;
 using NLog;
 using NLog.Web;
 
@@ -20,9 +21,8 @@ try
             o.OutputFormatters.Add(new XmlDataContractSerializerOutputFormatter());
         });
 
-
-
-
+    var connectionString = builder.Configuration["connectionStrings:cityInfoDBConnectionString"];
+    builder.Services.AddDbContext<CityInfoContext>(options => options.UseSqlServer(connectionString));
 
     var app = builder.Build();
 
